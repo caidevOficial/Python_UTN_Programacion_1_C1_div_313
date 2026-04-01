@@ -47,7 +47,7 @@
         </tr>
         <tr align='center'>
             <td>
-                🦸🏻‍♂️ Juan Pablo Lezama
+                🦸🏻‍♂️ Juan Pablo Ledezma
             </td>
             <td>
                 <a href="">
