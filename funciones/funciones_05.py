@@ -64,8 +64,6 @@ def buscar_divisor(numero: int, min_rango: int, max_rango: int) -> bool:
     return no_hay_divisor
 
 def es_primo(numero: int) -> bool:
-    cond_primo = True
-
     if numero < 2:
         cond_primo = False
     elif numero == 2:
