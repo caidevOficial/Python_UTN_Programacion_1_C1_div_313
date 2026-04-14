@@ -38,8 +38,16 @@ def mostrar_menu(texto_menu: str) -> None:
     return None
 
 def es_par(numero: int) -> bool:
-    # num_par = numero % 2 == 0
-    # return num_par
+    """
+    Se encarga de validar de que el número de viene por parametro
+    sea un número par o impar.
+
+    Args:
+        numero (int): El nú,ero el cual hay que verificar si es par o impar.
+    
+    Returns:
+            Retorna True si el número es par, Falso caso contrario.
+    """
     es_par = False
     if numero % 2 == 0:
         es_par = True
