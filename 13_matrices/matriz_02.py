@@ -32,7 +32,6 @@ matriz_pokemons = [
     lista_poke_condiciones[0:5]
 ]
 
-
 matriz_pokemons_t = [
     [244,'entei','fuego',30,'legendario'],
     [28,'sandslash','suelo',15,'normal'],
@@ -41,8 +40,9 @@ matriz_pokemons_t = [
     [9,'blastoise','agua',18,'normal']
 ]
 
-mostrar_datos_matriz_cf(matriz_pokemons_t)
-print('')
-mostrar_datos_matriz_fc(matriz_pokemons_t)
+if __name__ == '__main__':
+    mostrar_datos_matriz_cf(matriz_pokemons_t)
+    print('')
+    mostrar_datos_matriz_fc(matriz_pokemons_t)
 
-# print(matriz_pokemons)
+    print(matriz_pokemons)

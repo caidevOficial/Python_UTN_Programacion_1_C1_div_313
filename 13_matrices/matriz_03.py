@@ -43,9 +43,9 @@ def trasponer_matriz(matriz: list[list]) -> list[list]:
 
 from matriz_01 import mostrar_datos_matriz_cf, mostrar_datos_matriz_fc
 
+if __name__ == '__main__':
+    mostrar_datos_matriz_cf(matriz_pokemons)
+    print('')
+    matriz_t = trasponer_matriz(matriz_pokemons)
 
-mostrar_datos_matriz_cf(matriz_pokemons)
-print('')
-matriz_t = trasponer_matriz(matriz_pokemons)
-
-mostrar_datos_matriz_fc(matriz_t)
+    mostrar_datos_matriz_fc(matriz_t)
