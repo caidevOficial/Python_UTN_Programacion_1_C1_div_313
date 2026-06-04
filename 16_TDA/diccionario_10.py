@@ -26,7 +26,7 @@ def filtrar_elementos(elementos: list[dict], filtrar_por: str, valor_buscado: st
 filtrado_1 = filtrar_elementos(lista_diccionario_heroes_small, filtrar_por='color_ojos', valor_buscado='Blue')
 filtrado_1 = filtrar_elementos(filtrado_1, filtrar_por='alineacion', valor_buscado='good')
 
-for heroe in filtrado_1:
-    # print(heroe)
-    print(f'{heroe.get('nombre')} - {heroe.get('color_ojos')} - {heroe.get('alineacion')}')
+# for heroe in filtrado_1:
+#     # print(heroe)
+#     print(f'{heroe.get('nombre')} - {heroe.get('color_ojos')} - {heroe.get('alineacion')}')
 

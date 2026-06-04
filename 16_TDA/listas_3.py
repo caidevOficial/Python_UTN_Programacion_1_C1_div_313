@@ -12,13 +12,13 @@ def join_lista_a_texto(lista_palabras: list[str], separador: str) -> str:
 
     return texto_nuevo
 
-print(info_persona)
+# print(info_persona)
 
-lista_a_texto = join_lista_a_texto(info_persona, ',')
-texto_a_lista = split_texto(lista_a_texto, ',')
+# lista_a_texto = join_lista_a_texto(info_persona, ',')
+# texto_a_lista = split_texto(lista_a_texto, ',')
 
 
-print(
-    lista_a_texto,
-    texto_a_lista
-)
+# print(
+#     lista_a_texto,
+#     texto_a_lista
+# )

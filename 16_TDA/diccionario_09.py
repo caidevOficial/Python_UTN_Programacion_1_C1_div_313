@@ -48,5 +48,5 @@ def do_quick_sort(elementos: list[dict], ordenar_por: str, modo : str = 'ASC') -
 
 lista_ordenada = do_quick_sort(lista_dict_pokemones, ordenar_por='poder',modo='ASC')
 
-for pokemon in lista_ordenada:
-    print(pokemon)
+# for pokemon in lista_ordenada:
+#     print(pokemon)

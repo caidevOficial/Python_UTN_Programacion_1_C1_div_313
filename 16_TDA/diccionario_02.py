@@ -8,7 +8,7 @@ pokemon = {
 
 
 # nombre = pokemon["region"]
-nombre = pokemon.get("REGION")
+nombre = pokemon.get("REGION", 'n/a')
 print(f'VALOR: {nombre}')
 
 
