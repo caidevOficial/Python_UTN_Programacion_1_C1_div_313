@@ -24,8 +24,8 @@ def is_sub_list(source: list, destiny: list) -> bool:
 
     return es_sub_lista
 
+if __name__ == '__main__':
+    lista_1 = [1,2,3]
+    lista_2 = [1,4,5,2,3,6]
 
-lista_1 = [1,2,3]
-lista_2 = [1,4,5,2,3,6]
-
-print(is_sub_list(lista_1, lista_2))
+    print(is_sub_list(lista_1, lista_2))

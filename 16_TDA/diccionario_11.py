@@ -66,10 +66,10 @@ def buscar_datos_por_id(lista_busqueda: list[dict], clave_busqueda: str, id_abus
 
     return dato_encontrado
 
+if __name__ == '__main__':
+    for elemento_num in lista_heroes_num:
 
-# for elemento_num in lista_heroes_num:
-
-#     id_buscar = elemento_num.get('id')
-#     elem_encontrado = buscar_datos_por_id(lista_heroes_texto, 'id', id_buscar)
-#     elemento_num.update(elem_encontrado)
-#     print(elemento_num)
+        id_buscar = elemento_num.get('id')
+        elem_encontrado = buscar_datos_por_id(lista_heroes_texto, 'id', id_buscar)
+        elemento_num.update(elem_encontrado)
+        print(elemento_num)

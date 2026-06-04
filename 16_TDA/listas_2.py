@@ -28,14 +28,15 @@ def split_texto(texto: str, separador: str) -> list[str]:
     return lista_str
 
 
-texto =\
-"""
-pepe,54,1.70
-moni,45,1.62
-coqui,18,1.60
-"""
-# info_personas = split_texto(texto, '\n')
+if __name__ == '__main__':
+    texto =\
+    """
+    pepe,54,1.70
+    moni,45,1.62
+    coqui,18,1.60
+    """
+    info_personas = split_texto(texto, '\n')
 
-# for persona in info_personas:
-#     datos = split_texto(persona, ',')
-#     print(datos)
+    for persona in info_personas:
+        datos = split_texto(persona, ',')
+        print(datos)

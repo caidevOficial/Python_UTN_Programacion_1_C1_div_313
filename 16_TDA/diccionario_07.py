@@ -29,7 +29,8 @@ def contar_palabras_v2(texto: str) -> dict:
         cantidades[palabra] = cantidades.get(palabra, 0) + 1
     return cantidades
 
-
-diccionario_palabras = contar_palabras_v2(texto)
-for clave,valor in diccionario_palabras.items():
-    print(f'{clave} : {valor}')
+if __name__ == '__main__':
+    
+    diccionario_palabras = contar_palabras_v2(texto)
+    for clave,valor in diccionario_palabras.items():
+        print(f'{clave} : {valor}')
