@@ -1,0 +1,8 @@
+2026/06/17 - Se cargo la matriz de autos
+2026/06/17 - Se guardo la matriz de autos en: ./18_archivos/dataset_autos.csv
+2026/06/17, 00:00:00 - Se cargo la matriz de autos
+2026/06/17, 00:00:00 - Se guardo la matriz de autos en: ./18_archivos/dataset_autos.csv
+2026/06/17, 22:32:22 - Se cargo la matriz de autos
+2026/06/17, 22:32:22 - Se guardo la matriz de autos en: ./18_archivos/dataset_autos.csv
+2026/06/17, 22:32:51:06 - Se cargo la matriz de autos
+2026/06/17, 22:32:51:06 - Se guardo la matriz de autos en: ./18_archivos/dataset_autos.csv
