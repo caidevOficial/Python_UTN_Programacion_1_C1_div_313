@@ -1,3 +1,7 @@
+import json
+
+CODIFICACION = 'utf-8'
+
 def agregar_si_no_vacio(lista_palabras: list[str], palabra: str) -> bool:
     hubo_cambio = False
     if palabra != '':
@@ -45,3 +49,18 @@ def trasponer_matriz(matriz: list[list]) -> list[list]:
         matriz_t.append(nueva_fila)
     
     return matriz_t
+
+
+
+def escribir_json(ruta: str, informacion: dict):
+    with open(ruta, 'w', encoding=CODIFICACION) as json_file:
+        json.dump(informacion, json_file, indent=4)
+        print(f'Archivo creado con exito en: {ruta}')
+
+
+def leer_json(ruta: str) -> dict:
+    informacion = {}
+    with open(ruta, 'r', encoding=CODIFICACION) as json_file:
+        informacion = json.load(json_file)
+        print('Informacion extraida --')
+    return informacion

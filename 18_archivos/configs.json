@@ -1,0 +1,38 @@
+{
+    "info_vendedores": [
+        {
+            "vendedor_actual": "PEPE ARGENTO",
+            "atenciones_del_dia": 7,
+            "ganancias_totales_dia": 50000,
+            "productos_vendidos": [
+                {
+                    "nombre": "coca",
+                    "cantidad": 3
+                },
+                {
+                    "nombre": "pepsi",
+                    "cantidad": 6
+                },
+                {
+                    "nombre": "7-up",
+                    "cantidad": 2
+                },
+                {
+                    "nombre": "manaos",
+                    "cantidad": 5
+                }
+            ]
+        },
+        {
+            "vendedor_actual": "MONI ARGENTO",
+            "atenciones_del_dia": 10,
+            "ganancias_totales_dia": 75000,
+            "productos_vendidos": [
+                {
+                    "nombre": "coca",
+                    "cantidad": 3
+                }
+            ]
+        }
+    ]
+}
