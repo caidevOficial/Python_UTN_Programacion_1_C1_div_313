@@ -1,6 +1,8 @@
 import json
+from datetime import datetime
 
 CODIFICACION = 'utf-8'
+ARCHIVO_LOGS = './18_archivos/logs.txt'
 
 def agregar_si_no_vacio(lista_palabras: list[str], palabra: str) -> bool:
     hubo_cambio = False
@@ -51,16 +53,100 @@ def trasponer_matriz(matriz: list[list]) -> list[list]:
     return matriz_t
 
 
+def guardar_matriz_archivo(matriz_t: list[list], cabecera: list[str],ruta: str):
+    with open(ruta, 'w', encoding=CODIFICACION) as archivo:
+
+        lista_texto = []
+
+        headr = join_lista_a_texto(cabecera, ',') + '\n'
+        lista_texto.append(headr)
+
+        for fila in matriz_t:
+            texto = join_lista_a_texto(fila, ',') + '\n'
+            lista_texto.append(texto)
+
+        archivo.writelines(lista_texto)
+
+
+def extraer_datos_dict(target: list[str], diccionario: dict, separador: str, tipo_dato: str):
+    
+    if tipo_dato == 'keys':
+        datos = list(diccionario.keys())
+    else:
+        datos = list(diccionario.values())
+    headr = join_lista_a_texto(datos, separador) + '\n'
+    target.append(headr)
+
+def crear_texto_datos(dataset: list[dict]):
+    lista_texto = []
+    extraer_datos_dict(lista_texto, dataset[0], ',', 'keys')
+    for heroe in dataset:
+        extraer_datos_dict(lista_texto, heroe, ',', 'values')
+    return lista_texto
+
+def guardar_dataset_dict_archivo(dataset: list[dict], ruta: str):
+
+    with open(ruta, 'w', encoding=CODIFICACION) as file:
+        lista_texto = crear_texto_datos(dataset)
+        file.writelines(lista_texto)
+
+def parsear_dataset_matriz(datos: list[str]) -> list[list]:
+    mi_matriz = []
+    for linea in datos:
+        if datos.index(linea) == 0:
+            continue
+        linea = linea.replace('\n', '')
+        datos_linea = split_texto(linea, ',')
+        mi_matriz.append(datos_linea)
+    return mi_matriz
+
+def parsear_dataset_lidict(datos: list[str]) -> list[dict]:
+    str_claves_limpias = datos.pop(0).replace('\n', '')
+    claves = split_texto(str_claves_limpias, ',')
+    lista_dict_heroes = []
+
+    for heroe in datos:
+        heroe = heroe.replace('\n', '')
+        datos_heroe = split_texto(heroe, ',')
+        heroe_dict = {}
+
+        for indice_clave in range(len(claves)):
+            heroe_dict.update(
+                {claves[indice_clave] : datos_heroe[indice_clave]}
+            )
+        lista_dict_heroes.append(heroe_dict)
+    return lista_dict_heroes
+
+
+
+def leer_dataset(ruta: str) ->list[str]:
+
+    
+    with open(ruta, 'r', encoding=CODIFICACION) as file:
+        contenido = file.readlines()
+
+    return contenido
+
+def guardar_logs(mensaje: str):
+
+    with open(ARCHIVO_LOGS, 'a', encoding=CODIFICACION) as logs:
+        logs.write(f'{mensaje}\n')
+        print('[SYSTEM]: NUEVO LOG GUARDADO CON EXITO!')
+
+def generar_fecha_actual_str():
+    fecha = datetime.now().strftime('%Y/%m/%d, %H:%M:%S')
+    return fecha
 
 def escribir_json(ruta: str, informacion: dict):
     with open(ruta, 'w', encoding=CODIFICACION) as json_file:
         json.dump(informacion, json_file, indent=4)
-        print(f'Archivo creado con exito en: {ruta}')
+        print(f'[SYSTEM] Archivo creado con exito en: {ruta}')
 
 
 def leer_json(ruta: str) -> dict:
     informacion = {}
     with open(ruta, 'r', encoding=CODIFICACION) as json_file:
         informacion = json.load(json_file)
-        print('Informacion extraida --')
+        print('[SYSTEM] -- Informacion extraida --')
     return informacion
+
