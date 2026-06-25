@@ -1,0 +1,25 @@
+{
+    "usuarios": [
+        {
+            "id": 1,
+            "username": "pepe",
+            "password": "vamosRacing",
+            "tipo": "vendedor",
+            "esta_online": false
+        },
+        {
+            "id": 2,
+            "username": "juanpa",
+            "password": "profejuanpa",
+            "tipo": "ADMIN",
+            "esta_online": false
+        },
+        {
+            "id": 3,
+            "username": "facu",
+            "password": "profefacu",
+            "tipo": "ADMIN",
+            "esta_online": false
+        }
+    ]
+}
