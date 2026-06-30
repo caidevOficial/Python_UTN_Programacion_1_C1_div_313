@@ -121,11 +121,100 @@ def parsear_dataset_lidict(datos: list[str]) -> list[dict]:
 
 def leer_dataset(ruta: str) ->list[str]:
 
-    
     with open(ruta, 'r', encoding=CODIFICACION) as file:
         contenido = file.readlines()
 
     return contenido
+
+def borrar_salto_linea(dato: str) -> str:
+    return dato.replace('\n', '')
+
+def parsear_numeros(datos: list[str]) -> list:
+    datos[2] = int(datos[2])
+    datos[3] = float(datos[3])
+    return datos
+
+def mapear_datos_v3(lista_indices: list[int], lista_dato: list, callback) -> list:
+    for indice in lista_indices:
+        lista_dato[indice] = callback(lista_dato[indice])
+    return lista_dato
+
+def parsear_num_heroes(datos: list[str]) -> list:
+    indices_parseos_int = [0,4,5,6,7]
+    indices_parseos_flt = [10,11]
+
+    datos = mapear_datos_v3(indices_parseos_int, datos, int)
+    datos = mapear_datos_v3(indices_parseos_flt, datos, float)
+    
+    return datos
+
+def mapear_datos(lista_datos: list[str], callback) -> list[str]:
+    datos_mapeados = []
+    for index_dato in range(len(lista_datos)):
+        dato_mapeado = callback(lista_datos[index_dato])
+        datos_mapeados.append(dato_mapeado)
+    return datos_mapeados
+
+def crear_diccionario(lista_dato: list, cabeceras: list[str]) -> dict:
+    dato = {}
+    for clave, valor in zip(cabeceras, lista_dato):
+        dato.update({clave: valor})
+    return dato
+
+def mapear_datos_v2(matriz_datos: list[list], callback_1, lista_claves):
+    lista_dict = []
+    for index_dato in range(len(matriz_datos)):
+        dato_parseado = callback_1(matriz_datos[index_dato], lista_claves)
+        lista_dict.append(dato_parseado)
+    return lista_dict
+
+def procesar_dataset_inicial(ruta: str):
+    datos = leer_dataset(ruta)
+    datos_saneados = mapear_datos(datos, lambda dato: dato.replace('\n', ''))
+    claves = datos_saneados.pop(0)
+    #LD
+    datos_retorno = {
+        "claves": split_texto(claves, separador=','),
+        "datos_saneados": datos_saneados
+    }
+    return datos_retorno
+
+def crear_matriz_datos_inicial(matriz_inicial: list[list]):
+    matriz_retorno = []
+    for indice_dato in range(len(matriz_inicial)):
+        fila_saneada = split_texto(matriz_inicial[indice_dato], ',')
+        matriz_retorno.append(fila_saneada)
+    
+    return matriz_retorno
+    
+
+def cargar_dataset_sistema(ruta: str, tipo_outuput_dataset: str):
+    
+    info_ds = procesar_dataset_inicial(ruta)
+    dataset = info_ds.get('datos_saneados')
+    
+    matriz_datos = crear_matriz_datos_inicial(dataset)
+    # matriz_mapeada = mapear_datos(matriz_datos, parsear_numeros)
+
+    if tipo_outuput_dataset == 'matrix':
+        return matriz_datos
+    
+    # caso contrario
+    datos_saneados_v2 = mapear_datos_v2(matriz_datos, crear_diccionario, info_ds.get('claves'))
+    return datos_saneados_v2
+
+def mapear_dato(dato: dict, claves: list[str], callback):
+    for clave in claves:
+        if clave in dato.keys():
+            valor = dato.get(clave)
+            dato.update({clave: callback(valor)})
+
+def mapear_ld(datos: list[dict], claves: list[str], callback):
+
+    for dato in datos:
+        mapear_dato(dato, claves, callback)
+
+    return datos
 
 def guardar_logs(mensaje: str):
 
@@ -176,3 +265,74 @@ def validar_input(mensaje: str,callback_val, callback_parse) -> int | float:
     else:
         print('ERROR')
         return validar_input(mensaje, callback_val, callback_parse)
+
+def es_matriz(datos: list) -> bool:
+    matriz = True
+
+    if type(datos) == list:
+        for dato in datos:
+            if type(dato) != list:
+                matriz = False
+                break
+    return matriz
+
+def crear_info_dataset(cabecera: str, datos: list[dict]):
+    info = cabecera
+
+    for dato in datos:
+        valores = list(dato.values())
+        valores_str = '\n' + join_lista_a_texto(valores, ',')
+        info += valores_str
+    return info
+
+def crear_informacion_ld(datos: list[dict]) -> str:
+    cabecera = join_lista_a_texto(
+        list(datos[0].keys()),
+        separador=','
+    )
+    
+    info = crear_info_dataset(cabecera, datos)
+    
+    return info
+
+def crear_informacion_mtx(datos: list[list], cabecera: str) -> str:
+    info = cabecera
+    for fila in datos:
+        fila_str = '\n' + join_lista_a_texto(fila, ',')
+        info += fila_str
+    return info
+
+
+def guardar_dataset_csv(datos: list, ruta: str, cabeceras_auto: bool, cabeceras: str = None):
+    # determinar si es L-D o M
+    if es_matriz(datos) and not cabeceras_auto and cabeceras:
+        # Procesar la informacion para guardar en archivo
+        informacion = crear_informacion_mtx(datos, cabeceras)
+    elif not es_matriz(datos) and cabeceras_auto:
+        informacion = crear_informacion_ld(datos)
+    else:
+        print('El formato de algun parametro es incorrecto.')
+        return False
+
+    
+    with open(ruta, 'w', encoding=CODIFICACION) as file:
+        file.write(informacion)
+        print(f'Archivo guardado en {ruta}')
+    return True
+
+
+def guardar_dataset_csv_v2(config: dict):
+    if es_matriz(config.get('data')) and not config.get('auto_header') and config.get('header'):
+        informacion = crear_informacion_mtx(config.get('data'), config.get('header'))
+    elif not es_matriz(config.get('data')) and config.get('auto_header'):
+        informacion = crear_informacion_ld(config.get('data'))
+    else:
+        print('El formato de algun parametro es incorrecto.')
+        return False
+    
+    with open(config.get("path"), 'w', encoding=CODIFICACION) as file:
+        file.write(informacion)
+        print(f'Archivo guardado en {config.get("path")}')
+    return True
+    
+
