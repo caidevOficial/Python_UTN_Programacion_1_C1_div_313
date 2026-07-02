@@ -334,5 +334,87 @@ def guardar_dataset_csv_v2(config: dict):
         file.write(informacion)
         print(f'Archivo guardado en {config.get("path")}')
     return True
-    
 
+def comparar_condicion(pokemon_1: dict, pokemon_2: dict, comparacion: str) -> bool:
+    if comparacion == '==':
+        return pokemon_1.get('condicion') == pokemon_2.get('condicion')
+    elif comparacion == '>':
+        return pokemon_1.get('condicion') > pokemon_2.get('condicion')
+
+    return pokemon_1.get('condicion') < pokemon_2.get('condicion')
+
+def comparar_nombre(pokemon_1: dict, pokemon_2: dict, comparacion: str) -> bool:
+    if comparacion == '==':
+        return pokemon_1.get('nombre') == pokemon_2.get('nombre')
+    elif comparacion == '>':
+        return pokemon_1.get('nombre') > pokemon_2.get('nombre')
+
+    return pokemon_1.get('nombre') < pokemon_2.get('nombre')
+
+def comparar_atributos(pokemon_1: dict, pokemon_2: dict, clave: str,comparacion: str) -> bool:
+    if comparacion == '==':
+        return pokemon_1.get(clave) == pokemon_2.get(clave)
+    elif comparacion == '>':
+        return pokemon_1.get(clave) > pokemon_2.get(clave)
+
+    return pokemon_1.get(clave) < pokemon_2.get(clave)
+
+def do_selection(datos: list[dict], configs: dict):
+    datos_copia = datos.copy()
+    callback_criterio = configs.get('cbk')
+    modo = configs.get('modo')
+    largo = len(datos_copia)
+    cantidad_atributos = len(configs.get('claves').keys())
+    compara_tres = cantidad_atributos == 3
+    compara_dos = cantidad_atributos == 2
+    claves_comp = configs.get('claves')    
+
+
+    for indice_a in range(largo - 1):
+        indice_elegido = indice_a
+
+        for indice_b in range(indice_a + 1, largo):
+            
+            if callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_primaria'),'<') and modo == 'DES' or\
+               callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_primaria'),'>') and modo == 'ASC' or\
+               (compara_dos or compara_tres) and callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_primaria'), '==') and (
+                   callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_secundaria'),'<') and modo == 'DES' or\
+                   callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_secundaria'),'>') and modo == 'ASC' or\
+                   compara_tres and callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_secundaria'), '==') and (
+                        callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_terciaria'),'<') and modo == 'DES' or\
+                        callback_criterio(datos_copia[indice_elegido],datos_copia[indice_b], claves_comp.get('clave_terciaria'),'>') and modo == 'ASC'
+                    )
+                ):
+                indice_elegido = indice_b
+
+            # if datos_copia[indice_elegido].get('condicion') < datos_copia[indice_b].get('condicion') and modo == 'DES' or\
+            #    datos_copia[indice_elegido].get('condicion') > datos_copia[indice_b].get('condicion') and modo == 'ASC' or\
+            #    datos_copia[indice_elegido].get('condicion') == datos_copia[indice_b].get('condicion') and\
+            #         ((datos_copia[indice_elegido].get('nombre') < datos_copia[indice_b].get('nombre') and modo == 'DES') or
+            #          datos_copia[indice_elegido].get('nombre') > datos_copia[indice_b].get('nombre') and modo == 'ASC'):
+        
+
+        if indice_elegido != indice_a:
+            datos_copia[indice_elegido], datos_copia[indice_a] =\
+            datos_copia[indice_a],datos_copia[indice_elegido]
+    
+    return datos_copia
+
+
+if __name__ == '__main__':
+
+    from utn_fra_datasets.datasets import lista_dict_pokemones
+    configuracion = {
+        "cbk": comparar_atributos,
+        "modo": 'ASC',
+        "claves": {
+            "clave_primaria": 'condicion',
+            "clave_secundaria": 'tipo',
+            "clave_terciaria": 'poder'
+        }
+    }
+    resultado = do_selection(lista_dict_pokemones, configuracion)
+    
+    # print(lista_dict_pokemones)
+    # print()
+    print(resultado)
